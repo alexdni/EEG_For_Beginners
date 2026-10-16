@@ -65,6 +65,10 @@ Week 2 turns "I can see alpha" into "I can clean a recording and compute numbers
 
 - [ ] Go through [Checkpoints](checkpoints.md) and mark anything you cannot do yet. Bring the list, your notes file, and your lab outputs.
 
+## After the two weeks
+
+Once the [checkpoints](checkpoints.md) are ticked, pick the branch that matches your project in [Project branches](project-branches.md): heart-brain correlation, ASR/ICA validation, or neurally controlled game design. None of it is in the six-hour budget.
+
 ## If you fall behind
 
 Do the hands-on sessions (3 and 6) and the vocabulary in [Module 15](modules/15-divergence-orientation.md) first. Everything else can be caught up with the [resource library](resources.md) afterwards. You do not need to finish every linked resource; the modules say what to read, watch, or run, and the library is the longer menu.

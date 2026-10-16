@@ -154,6 +154,8 @@ The cutoff *k* is the one setting that matters. Lower is more aggressive. EEGLAB
 
 Read the [clean_rawdata README](https://github.com/sccn/clean_rawdata) for how ASR is implemented in EEGLAB, and [mne-denoise's ASR page](https://mne.tools/mne-denoise/asr.html) for a Python implementation you can try on the course samples.
 
+ASR was created by Christian Kothe, whose free lecture series [Introduction to Modern BCI Design](https://sccn.ucsd.edu/wiki/Introduction_To_Modern_Brain-Computer_Interface_Design) (SCCN/UCSD, ten recorded lectures with slide PDFs, no login) covers the signal processing it builds on, plus Lab Streaming Layer. If your project is the de-noising pipeline, those lectures and the [ASR/ICA validation branch](../project-branches.md) are your next reading.
+
 ## Putting it together: three exports of one recording
 
 ![Three exports of the same recording: raw, rejection only, and full pipeline, with spectra](../assets/figures/pipeline_stages.png)
@@ -196,6 +198,9 @@ It prints the end-of-recording junk, the threshold rejection, the ICA blink comp
 - The [Online EEGLAB Workshop](https://www.sccn.ucsd.edu/wiki/Online_EEGLAB_Workshop) videos on preprocessing and ICA, including Delorme's "Removing Artifactual Components".
 - [clean_rawdata](https://github.com/sccn/clean_rawdata) (EEGLAB ASR) and [mne-denoise ASR](https://mne.tools/mne-denoise/asr.html) (Python).
 - [mne-icalabel](https://mne.tools/mne-icalabel/stable/index.html).
+- Christian Kothe, [Introduction to Modern BCI Design](https://sccn.ucsd.edu/wiki/Introduction_To_Modern_Brain-Computer_Interface_Design): lectures from the author of ASR.
+- [Brainstorm](https://neuroimage.usc.edu/brainstorm/Tutorials/AllIntroduction)'s introduction tutorials do artifact rejection in a GUI, a good way to see the steps before scripting them.
+- [Project branches: ASR/ICA validation](../project-branches.md), for how to measure whether a cleaning pipeline works.
 - Chang, Hsu, Pion-Tonachini and Jung (2020), "Evaluation of artifact subspace reconstruction for automatic artifact components removal in multi-channel EEG recordings", *IEEE Transactions on Biomedical Engineering* 67(4).
 
 ## Check yourself

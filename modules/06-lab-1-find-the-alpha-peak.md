@@ -143,6 +143,9 @@ Each spectrum is read with its own frequency axis because the two files have sli
 - **Find an eye blink and a stretch of muscle noise.** `s01` and `s02` have few; for a guaranteed blink load `load_sample("pipeline_raw")` (s06) and look at Fp1/Fp2 in the first 30 seconds; muscle bursts are on T3-T6 around 13-17 s. Screenshot one of each for your notes, and use them in your [artifact cheat sheet](05-artifacts-field-guide.md#exercise-your-one-page-cheat-sheet).
 - **Change the band edges.** Recompute the ratio for 7-12 Hz and 9-14 Hz. How much does it change? This is why band edges are conventions ([Module 02](02-frequency-bands.md)).
 
+> [!TIP]
+> **On your own head.** With a Muse 2 or Muse S, [EEGEdu](https://github.com/kylemath/EEGEdu) runs this lab live in a browser: connect over Web Bluetooth, open the spectra module, close your eyes and watch the alpha peak rise. See [open-source projects](../open-source.md#eegedu).
+
 ## Part B: the PhysioNet version (extension)
 
 This is the exact exercise from the original syllabus, on a public research dataset: two one-minute baseline runs from the [PhysioNet EEG Motor Movement/Imagery dataset](https://physionet.org/content/eegmmidb/1.0.0/) (64 channels, 160 Hz). **Run 1 is eyes open, run 2 is eyes closed.** It downloads about 2.5 MB the first time.

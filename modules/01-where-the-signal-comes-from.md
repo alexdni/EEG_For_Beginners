@@ -20,6 +20,12 @@ Start with the two-minute version, then the real thing.
 
 [![Mike X Cohen: Introduction to EEG time series (ANTS lecture 1)](https://img.youtube.com/vi/ukjuFUghieg/hqdefault.jpg)](https://www.youtube.com/watch?v=ukjuFUghieg&list=PLn0OLiymPak0t1moK3sn4Sl1seXlEOPHT)
 
+Prefer reading, or want a second explanation? Three free, no-login alternatives (more on the [open-source projects page](../open-source.md)):
+
+- **[NeuroTechEDU lessons](http://learn.neurotechedu.com/lessons/)** (NeuroTechX): short written primers on EEG and neurotech. Community-maintained, so expect a few stale links.
+- **[Introduction to Modern BCI Design](https://sccn.ucsd.edu/wiki/Introduction_To_Modern_Brain-Computer_Interface_Design)** (Christian Kothe, SCCN/UCSD): the first lecture and its slide PDF cover EEG basics for engineers.
+- **[Introductory Neuroscience and Neuro-Instrumentation](https://onlinecourses.nptel.ac.in/noc20_ee95/preview)** (NPTEL, IISc Bangalore): weeks 2-4 cover EEG recording systems, waveforms and signal conditioning. The YouTube lectures need no login; enrolment is only for certification.
+
 Then read the **"Basics of EEG & ERPs" slide deck** in [PURSUE Module 1](https://pursue.richmond.edu/teaching-modules/full-semester-course/module-1-overview-of-eeg-erp) (University of Richmond, free). It is a real undergraduate lecture deck: what EEG measures, how it compares to fMRI and MEG, strengths and limits. Budget 30-45 minutes; it is shared with [Module 03](03-electrodes-and-montages.md).
 
 ## The one-paragraph version

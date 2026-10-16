@@ -40,6 +40,9 @@ A **topomap** is a top-down head drawing coloured by some value at each electrod
 
 If you ever compute an eyes-closed alpha topomap and the maximum is *not* at the back of the head, suspect the montage (electrode positions attached wrongly) or the channel names before you suspect the brain.
 
+> [!NOTE]
+> **Rather click than code first?** [Brainstorm](https://neuroimage.usc.edu/brainstorm/Tutorials/AllIntroduction) (USC and McGill) is a free GUI for EEG/MEG analysis whose compiled version runs without a MATLAB licence. Its introduction tutorials walk through a provided dataset step by step, and it opens EDF files, so you can scroll `data/samples/s01_rest_eyes-closed_19ch.edf` and look at its spectrum without writing a line of Python. Everything below does the same in MNE.
+
 ## Navigating in MNE
 
 ```python

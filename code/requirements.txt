@@ -4,6 +4,8 @@ scipy
 matplotlib
 edfio
 jupyter
-# optional: Module 09 (ICA auto-labelling) and Module 14 (HRV)
+# optional: Module 09 (ICA auto-labelling), Module 14 (HRV), Module 13 live-streaming lab (BrainFlow)
 mne-icalabel
 neurokit2
+brainflow
+mne-denoise   # optional: ASR in code/labs/branch_asr_validation.py (skipped if missing)

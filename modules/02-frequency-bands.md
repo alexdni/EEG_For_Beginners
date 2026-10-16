@@ -114,6 +114,9 @@ Not exactly. The bands cover different frequency ranges, so the absolute numbers
 
 </details>
 
+> [!TIP]
+> **Have a Muse 2 or Muse S?** [EEGEdu](https://github.com/kylemath/EEGEdu) (Mathewson lab, University of Alberta; MIT licence; no login) streams it into your browser over Web Bluetooth and shows the raw signal, filters, spectra and bands live. Close your eyes and watch alpha appear at the back channels. It is the browser successor to the archived NeuroTechX app EEG 101. No headset: the course's [Signal Lab](https://eeg-for-beginners.vercel.app/lab/signal-lab) does the same with the sample recordings.
+
 ## Notes file prompts
 
 - Draw the five bands on a frequency axis from memory, with one association each.

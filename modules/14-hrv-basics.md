@@ -139,4 +139,6 @@ The breathing-linked variation moves from HF (0.25 Hz) to LF (0.1 Hz) and gets b
 RSA amplitude (the size of the heart-rate swing within each breath), LF power (power in 0.04-0.15 Hz, where resonance breathing puts the rhythm), and coherence (how concentrated the spectrum is in one smooth peak).
 </details>
 
+If your project is the heart-brain correlation study, the [heart-brain branch](../project-branches.md) is the next layer: how to window EEG band power and HRV together, and why most published null results come from windows that were too short.
+
 Next: [Module 15, Divergence orientation](15-divergence-orientation.md).

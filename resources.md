@@ -1,11 +1,11 @@
 ---
 title: "Resource library"
-summary: "Everything the modules point at, plus the next layer down, grouped by type. All free unless marked."
+summary: "Everything the modules point at, plus the next layer down, grouped by type. All free and open without a login unless marked."
 ---
 
 # Resource library
 
-Everything the modules point at, plus the next layer down. All free unless marked. "Time" is how long the useful part takes, not the whole thing. You do not need to finish every resource: the [schedule](schedule.md) says what to read, watch or run, and this page is the longer menu for when you want more.
+Everything the modules point at, plus the next layer down. All free and open without a login unless marked. "Time" is how long the useful part takes, not the whole thing. You do not need to finish every resource: the [schedule](schedule.md) says what to read, watch or run, and this page is the longer menu for when you want more.
 
 ## Videos
 
@@ -25,7 +25,7 @@ Everything the modules point at, plus the next layer down. All free unless marke
 | [SPM for EEG/MEG course materials](https://www.fil.ion.ucl.ac.uk/spm/docs/courses/eeg_meg) (UCL) | Optional | A second set of intro decks on preprocessing and source analysis | — |
 | [Neural Data Science in Python](https://neuraldatascience.io) (Newman, Dalhousie) | 2-4 h for the EEG chapter | Free online textbook with notebooks; a slower, more complete path through MNE, starting from zero Python | [06](modules/06-lab-1-find-the-alpha-peak.md), [12](modules/12-lab-2-clean-and-measure.md) |
 | [Python for the practicing neuroscientist](https://elifesciences.org/labs/f779833b/python-for-the-practicing-neuroscientist-an-online-educational-resource) (Kramer and Eden) | 1-2 h per notebook | Case-study notebooks; spectral analysis of EEG rhythms (notebooks 3-4) from first principles | [10](modules/10-spectral-features.md) |
-| [Introduction to ERPs](https://erpinfo.org/the-erp-boot-camp) (Luck and Kappenman, ERP Boot Camp) | 3-5 h | Only if your project needs event-related analysis | [11](modules/11-epochs-and-erps.md) |
+| [Introduction to ERPs](https://erpinfo.org/the-erp-boot-camp) (Luck and Kappenman, ERP Boot Camp) | 3-5 h | Only if your project needs event-related analysis; free, but it needs an account on their course site | [11](modules/11-epochs-and-erps.md) |
 | [10-20 system (EEG)](<https://en.wikipedia.org/wiki/10%E2%80%9320_system_(EEG)>), Wikipedia | 15 min | Electrode names and positions | [03](modules/03-electrodes-and-montages.md) |
 
 ## Hands-on documentation
@@ -75,6 +75,26 @@ Everything the modules point at, plus the next layer down. All free unless marke
 | [PhysioNet EEG Motor Movement/Imagery](https://physionet.org/content/eegmmidb/1.0.0/) | 109 subjects, 64 ch, 160 Hz | Loads directly through `mne.datasets.eegbci`; runs 1 and 2 are one-minute eyes-open and eyes-closed baselines |
 | [OpenNeuro](https://openneuro.org) | Hundreds of datasets | BIDS-formatted EEG datasets, no registration; resting-state sets are useful for band-power practice |
 | [PhysioNet](https://physionet.org) | Large | Many physiological datasets beyond EEG, including ECG collections for HRV practice |
+
+## Open-source projects
+
+EEG 101 itself is retired: NeuroTechX archived the app in 2021 after InterAxon closed the Muse SDK, and its README now points to EEGEdu as the successor. Everything below is open source or openly licensed, and nothing here asks for an account; where a site has a request form for part of its material, the table says so. The [open-source projects page](open-source.md) has a "try it in 10 minutes" step for each.
+
+| Project or deck | What it is | Login? | Why it is on this map |
+| --- | --- | --- | --- |
+| [EEG 101](https://github.com/NeuroTechX/eeg-101) (NeuroTechX) | Archived interactive Android tutorial (React Native + Java) that walked a Muse wearer through EEG neurophysiology, hardware, filtering, spectra, and a simple BCI classifier | No | The source is still readable: the tutorial text in `src` is a well-paced five-screen intro, and the signal classes show real-time filtering and plotting in a mobile app. Useful reference for the game-design team |
+| [EEGEdu](https://github.com/kylemath/EEGEdu) (Mathewson lab, University of Alberta) | Browser-based successor to EEG 101: interactive modules on raw signal, filtering, spectra, bands, and evoked responses, streaming live from a Muse over Web Bluetooth. MIT licence, used in a 100-student undergraduate course | No | If a Muse 2 or Muse S is available, this is the fastest hands-on orientation there is; no install, just a browser |
+| [EEG-ExPy](https://github.com/NeuroTechX/eeg-expy) (formerly eeg-notebooks, NeuroTechX) | Python library of classic EEG experiments (visual N170, P300, SSVEP, alpha) built on BrainFlow, PsychoPy and MNE, with [documentation](https://neurotechx.github.io/EEG-ExPy/) and bundled example datasets | No | The analysis notebooks run on the bundled data without any hardware, so you can see a full experiment-to-plot pipeline in MNE; maintained from Toronto (John Griffiths, U of T) |
+| [BrainFlow](https://brainflow.readthedocs.io/en/stable/SupportedBoards.html) | Open-source SDK that streams from OpenBCI, Muse, BrainBit, Callibri, Unicorn and many other boards through one API, with Python, Node, Java and more bindings, plus a synthetic board and a playback-file board | No | The device layer under most open EEG tooling; the synthetic and playback boards let you test a real-time pipeline with no headset. Several of the boards it supports are ones Divergence integrates |
+| [Introduction to Modern BCI Design](https://sccn.ucsd.edu/wiki/Introduction_To_Modern_Brain-Computer_Interface_Design) (Christian Kothe, SCCN/UCSD) | Ten recorded lectures with downloadable slide PDFs: EEG basics, signal processing in BCIs, ERP processing, oscillatory processes, machine learning, plus Lab Streaming Layer and BCILAB tutorials | No | The best open deck set on EEG basics and signal processing for engineers. Kothe is the author of ASR, so his lectures are also background reading for the de-noising project |
+| [NeuroTechX awesome-bci](https://github.com/NeuroTechX/awesome-bci) | Curated list of open-source software, hardware, datasets, courses and communities | No | The index to go to when this map runs out |
+| [NeuroTechEDU lessons](http://learn.neurotechedu.com/lessons/) (NeuroTechX) | Free written lessons on EEG, BCI and neurotech basics | No | Short written primers; community-maintained, so expect a few stale links |
+| [OpenBCI docs: EEG setup](https://docs.openbci.com/GettingStarted/Biosensing-Setups/EEGSetup/) | Electrode wiring, reference and bias, 10-20 placement, and a walk-through of recording your own alpha waves | No | The most practical "what is a reference electrode" page on the web, and the whole [docs site](https://docs.openbci.com/) is MIT licensed |
+| [Brainstorm introduction tutorials](https://neuroimage.usc.edu/brainstorm/Tutorials/AllIntroduction) (USC and McGill) | Free GUI application for MEG/EEG analysis; a compiled version runs without a MATLAB licence; step-by-step intro tutorials on a provided dataset, plus an EEG-specific tutorial | No | A no-code way to see filtering, artifact rejection, spectra and source maps before writing any Python |
+| [PURSUE course modules](https://pursue.richmond.edu/teaching-modules/full-semester-course/) (University of Richmond) | Thirteen-module undergraduate EEG/ERP course, CC BY-NC-SA 4.0 | Decks on the module pages; data-processing labs and ERP datasets by request form | Already the Week 1 deck; the full module list covers signal generation, recording procedure, and processing labs |
+| [Introductory Neuroscience and Neuro-Instrumentation](https://onlinecourses.nptel.ac.in/noc20_ee95/preview) (NPTEL, IISc Bangalore) | University lecture series; weeks 2-4 cover EEG recording systems, waveforms, and signal conditioning, with EEGLAB demos | No for the YouTube lectures; free enrolment only if you want certification | An engineering-flavoured alternative to the psychology-flavoured decks above |
+
+Already in the library and also login-free: MNE tutorials, the FieldTrip and EEGLAB workshop videos, the EEGLAB wiki, Neural Data Science in Python, the Python EEG Handbook, and all the open-access papers.
 
 ## Paid options
 

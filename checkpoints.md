@@ -7,7 +7,42 @@ summary: "A self-assessment list for the end of the two weeks: tick what you can
 
 Go through this list before the first supervisor meeting. Tick everything you can do without looking it up. Mark anything you cannot do yet with a **?** and bring the list. The marks tell Alex where to start; nobody is expected to tick everything.
 
-## The five words Alex will use on day one
+## Checkpoints before the first supervisor meeting
+
+This is the canonical list from the syllabus. If you can do all of these without looking anything up, you are onboarded. Anything you cannot do goes on your question list.
+
+### Explain (out loud, in under a minute each)
+
+- [ ] Where scalp EEG comes from and why its spatial resolution is poor → [Module 01](modules/01-where-the-signal-comes-from.md)
+- [ ] The five frequency bands, their approximate ranges, and one state each is associated with → [Module 02](modules/02-frequency-bands.md)
+- [ ] What a reference electrode is and why changing it changes the recording → [Module 03](modules/03-electrodes-and-montages.md), [Module 08](modules/08-re-referencing.md)
+- [ ] How to tell a blink, an eye movement, muscle, and 60 Hz noise apart on a raw trace → [Module 05](modules/05-artifacts-field-guide.md)
+- [ ] What ICA does to a recording and what ASR does differently → [Module 09](modules/09-artifact-handling.md)
+- [ ] What band power and relative band power are, and how a theta/beta ratio is computed → [Module 10](modules/10-spectral-features.md)
+- [ ] The five steps of a neurofeedback loop and what a reward/inhibit threshold does → [Module 13](modules/13-neurofeedback-loop.md)
+- [ ] What RMSSD, HF, and LF measure, and why LF rises during slow paced breathing → [Module 14](modules/14-hrv-basics.md)
+
+### Do (with your own code, on the PhysioNet data)
+
+- [ ] Load a run, attach a montage, band-pass filter, and plot the raw trace → [Module 06, Part B](modules/06-lab-1-find-the-alpha-peak.md#part-b-the-physionet-version-extension)
+- [ ] Produce eyes-open and eyes-closed spectra and point to the alpha peak on a topomap → [Module 06, Part B](modules/06-lab-1-find-the-alpha-peak.md#part-b-the-physionet-version-extension)
+- [ ] Run ICA, identify the blink component, remove it, and show the frontal channels before and after → [Module 12, PhysioNet alternative](modules/12-lab-2-clean-and-measure.md#alternative-the-original-syllabus-version-physionet-data)
+- [ ] Compute alpha power per channel and name the three highest → [Module 12, PhysioNet alternative](modules/12-lab-2-clean-and-measure.md#alternative-the-original-syllabus-version-physionet-data)
+
+> [!TIP]
+> The PhysioNet runs load with `mne.datasets.eegbci` (the extension in Lab 1 and the alternative in Lab 2). The course's own [sample recordings](data/README.md) work for every "Do" item too, and are what the main path of both labs uses. Doing each item on both is the best proof that your code is yours.
+
+### Have ready
+
+- [ ] Your notes file with the artifact cheat sheet, the sketched 10-20 head, and the three Week 2 answers → [notes template](notes-template.md)
+- [ ] A list of terms you looked up and a list of questions for Alex
+- [ ] A working Python environment with MNE installed, committed `requirements.txt` or environment file in the project repo → [Module 00](modules/00-start-here.md)
+
+## Module by module
+
+The rest of this page breaks the same ground into smaller "I can…" steps, module by module. Use it to find exactly where a gap is.
+
+### The five words Alex will use on day one
 
 If you can only prepare one thing, prepare these. Say each in one sentence, out loud.
 
@@ -17,7 +52,7 @@ If you can only prepare one thing, prepare these. Say each in one sentence, out 
 - [ ] **RMSSD**: root mean square of successive differences between heartbeats; a short-window index of vagal activity. → [Module 14](modules/14-hrv-basics.md)
 - [ ] **LF/HF**: ratio of low-frequency (0.04-0.15 Hz) to high-frequency (0.15-0.4 Hz) power in the heartbeat series; heavily affected by breathing rate. → [Module 14](modules/14-hrv-basics.md)
 
-## Week 1: what EEG is
+### Week 1: what EEG is
 
 **[Module 01, Where the signal comes from](modules/01-where-the-signal-comes-from.md)**
 - [ ] I can explain that scalp EEG is the summed post-synaptic potentials of millions of aligned cortical pyramidal neurons.
@@ -49,7 +84,7 @@ If you can only prepare one thing, prepare these. Say each in one sentence, out 
 - [ ] I can draw a topomap of alpha power and check it is at the back of the head.
 - [ ] I have screenshots of a blink and a muscle burst in my notes.
 
-## Week 2: working with the signal
+### Week 2: working with the signal
 
 **[Module 07, Filtering](modules/07-filtering.md)**
 - [ ] I can say what a 1 Hz high-pass removes (drift, DC offset) and what a 40-45 Hz low-pass removes.

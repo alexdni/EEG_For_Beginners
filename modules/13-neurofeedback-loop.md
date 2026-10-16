@@ -118,6 +118,26 @@ Then change one thing at a time in the script and re-run:
 3. Make the window 2 s instead of 1 s (`WIN_S`). The traces get smoother; what happens to the success rate and the latency?
 4. Turn the blink amplitude down from 150 µV to 60 µV. Does the amplitude gate still catch them? What does that tell you about fixed amplitude gates?
 
+### Now make it live
+
+The replay above runs on a recording. A real system pulls data from a headset as it arrives. [BrainFlow](https://brainflow.readthedocs.io/en/stable/SupportedBoards.html) is the open-source SDK that does that for OpenBCI, Muse, BrainBit, Callibri, Unicorn and many other boards through one API, and it ships a **synthetic board** so you can build the loop with no headset:
+
+```bash
+pip install brainflow
+python code/labs/m13_brainflow_stream.py
+```
+
+Every 0.5 s the script takes the newest 2 s from BrainFlow's ring buffer, filters it causally and prints band power. The synthetic board puts a sine of about 5 × n Hz on its n-th channel, so the script has an answer key. One run printed:
+
+```text
+Mean band power over the run (µV², synthetic signal):
+   Fz: theta    21.0  alpha     0.0  beta     0.0   -> mostly theta
+   C3: theta     5.4  alpha   144.7  beta     0.1   -> mostly alpha
+   Cz: theta     0.1  alpha     7.3  beta   331.0   -> mostly beta
+```
+
+Add a threshold to one of those numbers and you have steps 1, 3 and 4 of the loop. Replace `BoardIds.SYNTHETIC_BOARD` with your device's id and nothing else changes. For worked examples of the same loop inside a mobile app, read the archived [EEG 101](https://github.com/NeuroTechX/eeg-101) source; for the game-design side, see the [neurally controlled game design branch](../project-branches.md). More on all of these on the [open-source projects page](../open-source.md).
+
 ## Self-check
 
 <details><summary>Name the five steps of the loop and one thing that can go wrong at each.</summary>

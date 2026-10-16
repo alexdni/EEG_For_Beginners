@@ -115,6 +115,11 @@ Use VS Code or JupyterLab, whichever you already know. If you know neither, Jupy
 | `assets/figures/` | The figures themselves. |
 | `schedule.md`, `checkpoints.md`, `resources.md`, `glossary.md` | Day-by-day plan, self-assessment list, resource library, and every term defined in one place. |
 | `notes-template.md` | A starting point for your notes file. |
+| `open-source.md` | The open-source projects around this course (BrainFlow, EEG-ExPy, EEGEdu, Brainstorm, free BCI lectures), each with a ten-minute way to try it. |
+| `project-branches.md` | What to read and build after the two weeks, by project. |
+
+> [!TIP]
+> The course uses MNE-Python for everything hands-on, but it is one corner of a large open ecosystem. When you want a no-code view of a pipeline, a live headset demo in the browser, or a deeper lecture series, start at [open-source projects](../open-source.md). Everything there is free, and nothing needs an account.
 
 ## The notes file habit
 

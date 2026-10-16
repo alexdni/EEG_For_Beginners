@@ -60,6 +60,11 @@ The Week 2 pipeline is the same one, in the same order, that nearly every EEG to
 | 14 | [HRV basics](modules/14-hrv-basics.md) | 2 · 8 | 40 min: 25 min reading, 15 min hands-on | Compute and interpret RMSSD, SDNN, LF, HF |
 | 15 | [Divergence orientation](modules/15-divergence-orientation.md) | 2 · 8 | 20 min to prepare, then the in-person walkthrough | Arrive at the platform walkthrough ready |
 
+## Beyond the course
+
+- **[Open-source projects](open-source.md)**: the open tools and lecture sets around this course (EEGEdu, BrainFlow, EEG-ExPy, Brainstorm, OpenBCI docs, Kothe's BCI lectures and more), what each is good for, and a ten-minute way to try it.
+- **[Project branches](project-branches.md)**: the next layer after the two weeks: heart-brain correlation, ASR/ICA validation, and neurally controlled game design.
+
 Reference pages: [Schedule](schedule.md) · [Checkpoints](checkpoints.md) · [Resources](resources.md) · [Glossary](glossary.md) · [Notes template](notes-template.md) · [Sample recordings](data/README.md)
 
 ## Quick start
@@ -81,6 +86,8 @@ Use VS Code or JupyterLab, whichever you already know. The labs are plain Python
 EEG_For_Beginners/
 ├── README.md                 this page
 ├── schedule.md               day-by-day plan, 8 sessions
+├── open-source.md            open-source projects and no-login lecture sets
+├── project-branches.md       what to do after the two weeks, per project
 ├── checkpoints.md            self-assessment before the first meeting
 ├── resources.md              the full resource library
 ├── glossary.md               every term, A-Z

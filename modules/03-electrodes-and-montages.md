@@ -83,6 +83,9 @@ The reference is just another electrode (or a combination of electrodes) chosen 
 
 The **ground** (or bias, DRL) electrode is different: it helps the amplifier reject common noise and is not part of any channel.
 
+> [!TIP]
+> For the hardware side of this, read OpenBCI's [EEG setup guide](https://docs.openbci.com/GettingStarted/Biosensing-Setups/EEGSetup/): which pins the reference and bias wires go into, 10-20 placement on a real cap, and a walk-through of recording your own alpha. It is the most practical "what is a reference electrode" page on the web, needs no login, and the [docs site](https://docs.openbci.com/) is MIT licensed.
+
 **Why it matters:** the same brain activity looks different under different references. A signal present at the reference electrode is subtracted from every channel. A rhythm that is equal at two sites vanishes from the difference between them. [Module 08](08-re-referencing.md) shows the same three seconds under four references, and how to change reference after recording in MNE.
 
 ## Montages: how channels are displayed

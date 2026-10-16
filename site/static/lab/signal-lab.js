@@ -193,7 +193,7 @@ function drawTraces() {
   // scale bar
   ctx.strokeStyle = accent; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(w - 6, top + rowH * nch - rowH); ctx.lineTo(w - 6, top + rowH * nch); ctx.stroke();
-  $("scale-label").textContent = `Orange bar = ${scale} µV`;
+  $("scale-label").textContent = `Scale bar = ${scale} µV`;
 }
 
 function drawSpectrum() {

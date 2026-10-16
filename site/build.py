@@ -38,6 +38,8 @@ PAGES = {
     "resources.md": "resources.html",
     "glossary.md": "glossary.html",
     "notes-template.md": "notes-template.html",
+    "open-source.md": "open-source.html",
+    "project-branches.md": "project-branches.html",
     "data/README.md": "data/index.html",
     "site/README.md": "about-this-site.html",
     "AUTHORING.md": "authoring.html",
@@ -286,7 +288,8 @@ def pager(prev, nxt, current_out):
     return f'<nav class="pager">{link(prev, "prev", "Previous")}{link(nxt, "next", "Next")}</nav>'
 
 
-def layout(template, *, title, out, nav, header, body, toc, pager_html, extra_head="", extra_scripts=""):
+def layout(template, *, title, out, nav, header, body, toc, pager_html, extra_head="", extra_scripts="",
+           body_class=""):
     base = relpath("", out)
     return (template
             .replace("{{title}}", html.escape(f"{title} · {SITE_NAME}" if title != SITE_NAME else SITE_NAME))
@@ -297,7 +300,8 @@ def layout(template, *, title, out, nav, header, body, toc, pager_html, extra_he
             .replace("{{toc}}", toc)
             .replace("{{pager}}", pager_html)
             .replace("{{extra_head}}", extra_head)
-            .replace("{{extra_scripts}}", extra_scripts))
+            .replace("{{extra_scripts}}", extra_scripts)
+            .replace("{{body_class}}", body_class))
 
 
 # ---------------------------------------------------------------------------
@@ -340,6 +344,9 @@ def build():
         if items:
             nav.append((group, items))
     nav.append(("Interactive", [(out, title, None) for _, out, title, _ in INTERACTIVE]))
+    beyond = [(o, short(by_out[o]), None) for o in ("open-source.html", "project-branches.html") if o in by_out]
+    if beyond:
+        nav.append(("Beyond the course", beyond))
     ref = [(o, short(by_out[o]), None) for o in
            ("checkpoints.html", "resources.html", "glossary.html", "data/index.html", "notes-template.html")
            if o in by_out]
@@ -347,7 +354,8 @@ def build():
 
     # reading order for prev/next: home, modules, then reference pages
     order = [p for p in pages if p["out"] == "index.html"] + modules + [
-        by_out[o] for o in ("schedule.html", "checkpoints.html", "resources.html", "glossary.html",
+        by_out[o] for o in ("open-source.html", "project-branches.html",
+                            "schedule.html", "checkpoints.html", "resources.html", "glossary.html",
                             "data/index.html", "notes-template.html", "about-this-site.html", "authoring.html")
         if o in by_out]
     search = []
@@ -355,12 +363,17 @@ def build():
         prev = order[k - 1] if k > 0 else None
         nxt = order[k + 1] if k + 1 < len(order) else None
         body = p["body"]
-        if p["out"] == "index.html":
-            body = module_cards(modules, p["out"]) + body
+        header = page_header(p["meta"])
+        home = p["out"] == "index.html"
+        if home:
+            header = hero(modules)
+            body = (feature_cards() + '<span class="eyebrow">The modules</span><h2 class="section-title">'
+                    'Sixteen modules, two weeks</h2>' + module_cards(modules, p["out"]) +
+                    '<span class="eyebrow">About this course</span>' + body)
         title = str(p["meta"].get("title", SITE_NAME))
         doc = layout(
-            template, title=title if p["out"] != "index.html" else SITE_NAME, out=p["out"],
-            nav=nav_html(nav, p["out"]), header=page_header(p["meta"]), body=body, toc=toc_html(p["toc"]),
+            template, title=title if not home else SITE_NAME, out=p["out"], body_class="home" if home else "",
+            nav=nav_html(nav, p["out"]), header=header, body=body, toc="" if home else toc_html(p["toc"]),
             pager_html=pager((prev["out"], short(prev)) if prev else None,
                              (nxt["out"], short(nxt)) if nxt else None, p["out"]),
             extra_scripts=mermaid_script(body),
@@ -377,8 +390,8 @@ def build():
         doc = layout(template, title=title, out=out, nav=nav_html(nav, out),
                      header=page_header({"title": title, "summary": summary}), body=body, toc="",
                      pager_html="", extra_head=head.replace("{{base}}", relpath("", out) or "./"),
-                     extra_scripts="")
-        doc = doc.replace('<body class="', '<body class="wide ')
+                     extra_scripts="", body_class="wide")
+
         write(DIST / out, doc)
         search.append({"t": title, "u": out, "h": [], "x": summary})
 
@@ -392,8 +405,7 @@ def build():
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(py, dest)
     shutil.copy2(ROOT / "code" / "requirements.txt", DIST / "code" / "requirements.txt")
-    write(DIST / "static" / "pygments.css", HtmlFormatter(style="friendly").get_style_defs(".code pre")
-          + "\n" + dark_pygments())
+    write(DIST / "static" / "pygments.css", pygments_css())
     write(DIST / "404.html", layout(template, title="Not found", out="404.html", nav=nav_html(nav, "404.html"),
                                      header=page_header({"title": "Page not found"}),
                                      body='<p><a href="index.html">Back to the course home</a></p>',
@@ -401,10 +413,10 @@ def build():
     print(f"built {len(order) + len(INTERACTIVE)} pages into {DIST.relative_to(ROOT)}")
 
 
-def dark_pygments():
-    css = HtmlFormatter(style="github-dark").get_style_defs(":root[data-theme=dark] .code pre")
-    auto = HtmlFormatter(style="github-dark").get_style_defs(":root:not([data-theme=light]) .code pre")
-    return css + "\n@media (prefers-color-scheme: dark) {\n" + auto + "\n}\n"
+def pygments_css():
+    dark = HtmlFormatter(style="github-dark").get_style_defs(":root:not([data-theme=light]) .code pre")
+    light = HtmlFormatter(style="friendly").get_style_defs(":root[data-theme=light] .code pre")
+    return dark + "\n" + light
 
 
 def module_cards(modules, current_out):
@@ -421,12 +433,54 @@ def module_cards(modules, current_out):
     return f'<section class="cards" aria-label="Modules">{"".join(cards)}</section>'
 
 
+def hero(modules):
+    labs = [p for p in (ROOT / "code" / "labs").glob("*.py") if not p.name.startswith("_")]
+    edfs = list((ROOT / "data" / "samples").glob("*.edf"))
+    figs = list((ROOT / "assets" / "figures").glob("*.png"))
+    stats = [(f"{len(modules)}", "modules, Markdown first"), (f"{len(edfs)}", "real EDF recordings"),
+             (f"{len(labs)}", "runnable Python labs"), (f"{len(figs)}", "figures drawn from the data")]
+    first = modules[0]["out"] if modules else "index.html"
+    return (
+        '<section class="hero">'
+        '<span class="pill">EEG · Signal processing · Neurofeedback · HRV</span>'
+        '<h1>EEG for Beginners<span>Two weeks, real signals.</span></h1>'
+        '<p class="lede">From zero to <strong>reading a raw trace, telling brain from artifact, and running a '
+        'basic analysis in Python</strong>. Every figure and exercise uses real recordings you can open in '
+        'the browser or in MNE.</p>'
+        f'<div class="cta"><a class="btn-primary" href="{first}">Start the course →</a>'
+        '<a class="btn-ghost" href="lab/signal-lab.html">Open the Signal Lab</a>'
+        '<a class="btn-ghost" href="schedule.html">Two-week schedule</a></div>'
+        '<div class="stats">' + "".join(f'<div class="stat"><b>{n}</b><span>{html.escape(t)}</span></div>'
+                                        for n, t in stats) + "</div></section>")
+
+
+def feature_cards():
+    items = [
+        ("lab/signal-lab.html", "Interactive", "Signal Lab",
+         "Open any course EDF, or your own, in the browser. Filter, re-reference, and read the spectrum live."),
+        ("lab/electrode-map.html", "Interactive", "Electrode map",
+         "The 10-20 system as a clickable head, with a naming quiz."),
+        ("open-source.html", "Ecosystem", "Open-source projects",
+         "EEGEdu, BrainFlow, EEG-ExPy, Brainstorm, OpenBCI docs and the lecture sets behind them."),
+        ("project-branches.html", "After week 2", "Project branches",
+         "Heart-brain coupling, ASR/ICA validation, and neurally controlled game design."),
+    ]
+    cards = "".join(
+        f'<a class="card feature" href="{href}"><span class="card-num">{html.escape(kind)}</span>'
+        f'<strong>{html.escape(title)}</strong><span class="card-sum">{html.escape(text)}</span></a>'
+        for href, kind, title, text in items if (DIST / href).exists() or href.startswith("lab/")
+        or (ROOT / href.replace(".html", ".md")).exists())
+    return f'<section class="cards" aria-label="Highlights">{cards}</section>'
+
+
 def mermaid_script(body):
     if 'class="mermaid"' not in body:
         return ""
     return ('<script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";'
-            'const dark=document.documentElement.dataset.theme==="dark"||(!document.documentElement.dataset.theme&&matchMedia("(prefers-color-scheme: dark)").matches);'
-            'mermaid.initialize({startOnLoad:true,theme:dark?"dark":"neutral",fontFamily:"Inter, system-ui, sans-serif"});</script>')
+            'const dark=document.documentElement.dataset.theme!=="light";'
+            'mermaid.initialize({startOnLoad:true,theme:dark?"dark":"neutral",fontFamily:"Inter, system-ui, sans-serif",'
+            'themeVariables:dark?{primaryColor:"#0c1a24",primaryBorderColor:"#22d3ee",primaryTextColor:"#e2e8f0",'
+            'lineColor:"#22d3ee",secondaryColor:"#141029",tertiaryColor:"#0c1019",background:"transparent",clusterBkg:"#0a1220",clusterBorder:"#1e4e5a",edgeLabelBackground:"#0c1019"}:{}});</script>')
 
 
 def write(path: Path, text: str):

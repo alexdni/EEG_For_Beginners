@@ -15,13 +15,13 @@
 .meta { margin: 0; font: .8rem var(--mono); color: var(--ink-2); }
 .lab-note { margin: 0; padding: 8px 12px; font-size: .86rem; border-radius: 8px; background: color-mix(in srgb, var(--warning) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--warning) 35%, var(--line)); }
 .lab-note:empty { display: none; }
-.lab-traces { padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.lab-traces { padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface-solid); }
 .lab-traces canvas { display: block; width: 100%; cursor: pointer; }
 .scrub { display: flex; align-items: center; gap: 10px; margin-top: 6px; font-size: .84rem; }
 .scrub input { flex: 1; accent-color: var(--accent); }
 .scrub label { font-size: .78rem; font-weight: 600; color: var(--muted); }
 .lab-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 14px; }
-.panel { padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.panel { padding: 14px 16px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface-solid); }
 .panel h2 { margin: 0; font-family: var(--serif); font-size: 1.15rem; font-weight: 650; }
 .panel-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
 .inline-ctls { display: flex; flex-wrap: wrap; gap: 10px; }

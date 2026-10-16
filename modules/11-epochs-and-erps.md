@@ -78,9 +78,11 @@ Latencies vary by task and person; treat them as rough guides.
 
 The epoch code above runs on the course samples. To try a real ERP, MNE's sample datasets include auditory and visual stimuli with event markers; the MNE [epochs tutorial](https://mne.tools/stable/auto_tutorials/epochs/10_epochs_overview.html) walks through events, `Epochs`, baseline and rejection, and then evoked responses.
 
+For a complete experiment-to-ERP pipeline without hardware, try [EEG-ExPy](https://github.com/NeuroTechX/eeg-expy) (NeuroTechX, formerly eeg-notebooks; no login). It packages classic experiments (visual N170, P300, SSVEP, alpha) built on BrainFlow, PsychoPy and MNE, and its [documentation](https://neurotechx.github.io/EEG-ExPy/) has analysis examples that run on bundled datasets. Open the P300 or N170 example and find the three steps from this module in its code: epoching around the stimulus events, baseline correction, and the rejection threshold.
+
 ## Go deeper
 
-- [Introduction to ERPs](https://erpinfo.org/the-erp-boot-camp), the free online course from Luck and Kappenman's ERP Boot Camp (3-5 hours). Only if your project needs event-related analysis.
+- [Introduction to ERPs](https://erpinfo.org/the-erp-boot-camp), the free online course from Luck and Kappenman's ERP Boot Camp (3-5 hours). Only if your project needs event-related analysis. Free, but it needs an account on their course site.
 - MNE: [The Epochs data structure](https://mne.tools/stable/auto_tutorials/epochs/10_epochs_overview.html).
 - Steven Luck, *An Introduction to the Event-Related Potential Technique* (MIT Press, 2nd ed. 2014), the standard textbook (not free).
 

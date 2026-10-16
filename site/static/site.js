@@ -5,13 +5,44 @@
 
   // theme
   document.querySelector(".theme-btn")?.addEventListener("click", () => {
-    const dark = root.dataset.theme
-      ? root.dataset.theme === "dark"
-      : matchMedia("(prefers-color-scheme: dark)").matches;
-    root.dataset.theme = dark ? "light" : "dark";
+    root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
     try { localStorage.setItem("theme", root.dataset.theme); } catch (e) { /* storage blocked */ }
     document.dispatchEvent(new CustomEvent("themechange"));
   });
+
+  // background: slowly drifting EEG-like traces. Each path holds two identical periods,
+  // so translating it by half its width loops seamlessly.
+  const bg = document.querySelector(".bg-waves");
+  if (bg) {
+    const W = 1440, H = 620, NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", `0 0 ${W * 2} ${H}`);
+    svg.setAttribute("preserveAspectRatio", "none");
+    let seed = 7;
+    const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    for (let k = 0; k < 9; k++) {
+      // integer cycles per period keep the wave continuous at the seam
+      const comps = [[1 + Math.floor(rand() * 2), 26 + rand() * 30], [3 + Math.floor(rand() * 3), 8 + rand() * 10],
+                     [18 + Math.floor(rand() * 10), 2 + rand() * 3.5], [41 + Math.floor(rand() * 8), 0.8 + rand() * 1.4]];
+      const phase = comps.map(() => rand() * Math.PI * 2);
+      const y0 = 40 + k * 58 + rand() * 20;
+      let d = "";
+      for (let x = 0; x <= W * 2; x += 6) {
+        let y = y0;
+        comps.forEach(([cyc, amp], i) => { y += amp * Math.sin((2 * Math.PI * cyc * x) / W + phase[i]); });
+        d += (x ? " L " : "M ") + x + " " + y.toFixed(1);
+      }
+      const path = document.createElementNS(NS, "path");
+      path.setAttribute("d", d);
+      path.setAttribute("opacity", (0.10 + 0.20 * (1 - k / 9)).toFixed(3));
+      path.setAttribute("class", "drift");
+      path.style.animationDuration = `${90 + k * 22}s`;
+      path.style.animationDelay = `${-rand() * 80}s`;
+      if (k % 3 === 2) path.style.color = "var(--violet-glow)";
+      svg.appendChild(path);
+    }
+    bg.appendChild(svg);
+  }
 
   // mobile nav
   const menu = document.querySelector(".menu-btn");
