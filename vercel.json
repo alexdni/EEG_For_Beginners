@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "python3 -m pip install -r site/requirements.txt && python3 site/build.py",
+  "outputDirectory": "site/dist",
+  "installCommand": "",
+  "framework": null,
+  "cleanUrls": true,
+  "headers": [
+    { "source": "/data/samples/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }] },
+    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }] }
+  ]
+}

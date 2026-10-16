@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="{{base}}static/lab/lab.css">
+<script type="module">
+import { drawHead, NOTES, LOBES, lobeOf, STANDARD_19 } from "{{base}}static/lab/electrodes.js";
+
+const all = [...STANDARD_19, "Fpz", "Oz", "A1", "A2"];
+const svg = document.getElementById("map");
+const info = document.getElementById("map-info");
+const quizBtn = document.getElementById("quiz-start");
+const prompt = document.getElementById("quiz-prompt");
+const score = document.getElementById("quiz-score");
+let quiz = null;
+
+function describe(name) {
+  const lobe = LOBES[lobeOf(name)];
+  const num = name.replace(/^[A-Za-z]+/, "");
+  const side = name.endsWith("z") ? "midline (z = zero)" : num ? (+num % 2 ? "left hemisphere (odd number)" : "right hemisphere (even number)") : "";
+  info.replaceChildren();
+  const h = document.createElement("h3"); h.textContent = name;
+  const p1 = document.createElement("p"); p1.textContent = `${lobe ? lobe.name[0].toUpperCase() + lobe.name.slice(1) : ""}${side ? " · " + side : ""}`;
+  const p2 = document.createElement("p"); p2.textContent = NOTES[name] || "";
+  info.append(h, p1, p2);
+}
+
+function render(selected) {
+  drawHead(svg, all, { selected, size: 420, showLabels: !quiz, onClick: (n) => (quiz ? answer(n) : (describe(n), render(n))) });
+}
+
+function next() {
+  const pool = STANDARD_19.filter((n) => n !== quiz.target);
+  quiz.target = pool[Math.floor(Math.random() * pool.length)];
+  prompt.textContent = `Click ${quiz.target}`;
+}
+
+function answer(n) {
+  quiz.tries++;
+  if (n === quiz.target) {
+    quiz.right++;
+    prompt.textContent = `Yes, that is ${n}.`;
+    setTimeout(() => (quiz.tries < 10 ? next() : finish()), 600);
+  } else {
+    prompt.textContent = `That is ${n}. Find ${quiz.target}.`;
+  }
+  score.textContent = `${quiz.right} / ${quiz.tries}`;
+}
+
+function finish() {
+  prompt.textContent = `Done: ${quiz.right} right out of ${quiz.tries} clicks.`;
+  quiz = null;
+  quizBtn.textContent = "Start quiz again";
+  render();
+}
+
+quizBtn.addEventListener("click", () => {
+  quiz = { right: 0, tries: 0, target: null };
+  quizBtn.textContent = "Restart quiz";
+  score.textContent = "0 / 0";
+  render();
+  next();
+});
+document.addEventListener("themechange", () => render());
+render();
+describe("Cz");
+</script>
+<!-- body -->
+<div class="map-layout">
+  <svg id="map" role="img" aria-label="10-20 electrode map"></svg>
+  <div class="map-side">
+    <div id="map-info" class="panel"></div>
+    <div class="panel">
+      <h2>Quiz</h2>
+      <p>Labels disappear. Ten electrodes, one at a time: click the one named.</p>
+      <button id="quiz-start" class="btn" type="button">Start quiz</button>
+      <p id="quiz-prompt" class="quiz-prompt" aria-live="polite"></p>
+      <p class="hint">Score <span id="quiz-score">–</span></p>
+    </div>
+    <div class="panel prose">
+      <h2>How the names work</h2>
+      <ul>
+        <li><strong>Letters</strong> name the region: Fp prefrontal, F frontal, C central, T temporal, P parietal, O occipital, A ear (auricular).</li>
+        <li><strong>Odd numbers</strong> are on the left, <strong>even</strong> on the right; numbers grow away from the midline.</li>
+        <li><strong>z</strong> means the midline: Fz, Cz, Pz, Oz.</li>
+        <li><strong>10-20</strong>: neighbouring electrodes sit 10% or 20% of the skull's front-back or left-right distance apart.</li>
+        <li>The 10-10 system renamed four sites: T3→T7, T4→T8, T5→P7, T6→P8. Both spellings are in use.</li>
+      </ul>
+    </div>
+  </div>
+</div>

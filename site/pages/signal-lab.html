@@ -1,0 +1,114 @@
+<link rel="stylesheet" href="{{base}}static/lab/lab.css">
+<script type="module" src="{{base}}static/lab/signal-lab.js"></script>
+<!-- body -->
+<div class="lab">
+  <section class="lab-controls" aria-label="Recording and processing">
+    <div class="ctl ctl-wide">
+      <label for="sample">Recording</label>
+      <select id="sample">
+        <optgroup label="Week 1: resting state">
+          <option value="s01_rest_eyes-closed_19ch.edf" data-preset="clean" data-note="Eyes closed. Click O1: see the 10 Hz peak in the spectrum and the ripple in the trace.">s01 · eyes closed, 19 ch</option>
+          <option value="s02_rest_eyes-open_19ch.edf" data-preset="clean" data-note="Eyes open, same session as s01. Compare the alpha column with s01.">s02 · eyes open, 19 ch</option>
+        </optgroup>
+        <optgroup label="Noise and filtering">
+          <option value="s03_linenoise_raw_19ch.edf" data-preset="noisy" data-note="Raw file with heavy 60 Hz mains hum. Start with no filters, then add the 60 Hz notch and watch the spectrum and the 60 Hz column.">s03 · line noise, raw</option>
+          <option value="s04_linenoise_cleaned_19ch.edf" data-preset="raw" data-note="Same recording after the platform pipeline (HP 1, LP 45, notch 60, artifact repair). Some 60 Hz survives.">s04 · line noise, cleaned</option>
+          <option value="s09_segments_original_8ch.edf" data-preset="drift" data-note="8-channel headset with strong slow drift. Toggle the high-pass between 0 and 1 Hz.">s09 · drift, 8 ch</option>
+        </optgroup>
+        <optgroup label="Artifacts and cleaning">
+          <option value="s05_artifacts_eyes-closed_19ch.edf" data-preset="clean" data-note="Rolling eye movements at Fp1/Fp2/F7/F8 while alpha continues at the back. Look at the last 4 seconds.">s05 · eye movements, 19 ch</option>
+          <option value="s06_pipeline_stage0_raw_19ch.edf" data-preset="clean" data-note="Raw export with sharp blinks at Fp1/Fp2. Compare with s07 and s08.">s06 · pipeline stage 0, raw</option>
+          <option value="s07_pipeline_stage1_rejection_19ch.edf" data-preset="clean" data-note="Bad segments cut: 46 s left of 75.">s07 · stage 1, rejection only</option>
+          <option value="s08_pipeline_stage2_full_19ch.edf" data-preset="raw" data-note="Full pipeline: segments repaired instead of cut.">s08 · stage 2, full clean</option>
+          <option value="s10_segments_removed_8ch.edf" data-preset="clean" data-note="The 15 cut segments are stored as annotations; their original positions are shaded.">s10 · segments removed, 8 ch</option>
+        </optgroup>
+        <optgroup label="4-channel headband">
+          <option value="s11_4ch_eyes-closed.edf" data-preset="clean" data-note="Even four channels show the alpha peak at O1.">s11 · eyes closed</option>
+          <option value="s12_4ch_eyes-open.edf" data-preset="clean" data-note="Eyes open.">s12 · eyes open</option>
+          <option value="s13_4ch_eyes-open_task.edf" data-preset="clean" data-note="Eyes open during a mental task.">s13 · eyes open, task</option>
+        </optgroup>
+      </select>
+      <p id="sample-note" class="hint"></p>
+    </div>
+    <div class="ctl">
+      <label for="file">Or open your own EDF</label>
+      <input id="file" type="file" accept=".edf,.EDF">
+      <p class="hint">Read locally; never uploaded.</p>
+    </div>
+  </section>
+
+  <section class="lab-filters" aria-label="Filters">
+    <div class="ctl"><label for="hp">High-pass</label>
+      <select id="hp"><option value="0">off</option><option value="0.1">0.1 Hz</option><option value="0.5">0.5 Hz</option><option value="1" selected>1 Hz</option><option value="4">4 Hz</option></select></div>
+    <div class="ctl"><label for="lp">Low-pass</label>
+      <select id="lp"><option value="0">off</option><option value="15">15 Hz</option><option value="30">30 Hz</option><option value="40" selected>40 Hz</option><option value="45">45 Hz</option><option value="70">70 Hz</option></select></div>
+    <div class="ctl"><label for="notch">Notch</label>
+      <select id="notch"><option value="0" selected>off</option><option value="60">60 Hz (N. America)</option><option value="50">50 Hz (Europe, Asia)</option></select></div>
+    <div class="ctl"><label for="phase">Filter type</label>
+      <select id="phase"><option value="zero">zero-phase (offline)</option><option value="causal">causal (real-time)</option></select></div>
+    <div class="ctl"><label for="ref">Reference</label>
+      <select id="ref"><option value="device">as recorded</option><option value="average">average</option><option value="Cz">Cz</option><option value="Pz">Pz</option></select></div>
+    <div class="ctl"><label for="scale">Gain (µV per row)</label>
+      <select id="scale"><option>25</option><option>50</option><option selected>100</option><option>200</option><option>400</option><option>1000</option><option>5000</option></select></div>
+    <div class="ctl"><label for="dur">Window</label>
+      <select id="dur"><option value="2">2 s</option><option value="5">5 s</option><option value="10" selected>10 s</option><option value="30">30 s</option><option value="60">60 s</option></select></div>
+  </section>
+
+  <p id="meta" class="meta"></p>
+  <p id="dc-note" class="lab-note" hidden></p>
+
+  <div class="lab-traces">
+    <canvas id="traces" aria-label="EEG traces"></canvas>
+    <div class="scrub">
+      <label for="start">Position</label>
+      <input id="start" type="range" min="0" max="100" step="0.1" value="0">
+      <span id="start-label">0.0 s</span>
+      <span id="scale-label" class="hint"></span>
+    </div>
+    <p class="hint">Arrow keys page through the recording. Click a trace to highlight it everywhere.</p>
+  </div>
+
+  <div class="lab-grid">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Spectrum</h2>
+        <div class="inline-ctls">
+          <label>Span <select id="span"><option value="whole">whole recording</option><option value="window">visible window</option></select></label>
+          <label>Average <select id="avg"><option value="median">median</option><option value="mean">mean</option></select></label>
+          <label>Up to <select id="fmax"><option value="45">45 Hz</option><option value="80" selected>80 Hz</option><option value="125">125 Hz</option></select></label>
+        </div>
+      </div>
+      <canvas id="spectrum" aria-label="Power spectrum"></canvas>
+      <p id="spec-label" class="hint"></p>
+      <p id="line-note" class="lab-note"></p>
+    </section>
+    <section class="panel panel-head-map">
+      <div class="panel-head">
+        <h2>Head map</h2>
+        <label>Band <select id="mapband"><option>delta</option><option>theta</option><option selected>alpha</option><option>beta</option><option>gamma</option></select></label>
+      </div>
+      <svg id="head" role="img" aria-label="Electrode map shaded by relative band power"></svg>
+      <p id="head-note" class="hint"></p>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>Relative band power per channel</h2><span class="hint">share of 1-45 Hz power · alpha peak searched 7-14 Hz</span></div>
+    <div id="bands" class="bands"></div>
+  </section>
+
+  <p id="status" class="hint status" aria-live="polite"></p>
+
+  <section class="prose lab-exercises">
+    <h2>Things to try</h2>
+    <ol>
+      <li><strong>Find alpha.</strong> Open s01, click O1. Read the alpha peak from the table. Switch to s02 and compare the alpha column at O1 and O2.</li>
+      <li><strong>Kill the hum.</strong> Open s03 with every filter off and the gain at 1000 µV. Note the 60 Hz column. Add the 60 Hz notch, then a 1 Hz high-pass, then a 40 Hz low-pass, checking the trace and the spectrum each time.</li>
+      <li><strong>See the phase cost.</strong> On s06, find a blink at Fp1. Switch the filter type from zero-phase to causal: the blink shifts later and changes shape. Real-time neurofeedback has to live with the causal version.</li>
+      <li><strong>Watch a reference move a blink.</strong> On s06, switch the reference from "as recorded" to average and to Cz. Which channels gain a blink they did not have before?</li>
+      <li><strong>Mean vs median.</strong> On s09 with the whole recording, switch the spectrum average from median to mean. The mean is dragged up by the drift and movement bursts.</li>
+      <li><strong>Judge a cleaning pipeline.</strong> Step through s06, s07 and s08 with the same filters. What did rejection remove, and what did the full pipeline repair?</li>
+    </ol>
+    <p>The browser filters are 4th-order Butterworth sections (notch Q = 30), not MNE's default FIR filters, so numbers will differ slightly from the Python labs. The ideas are the same.</p>
+  </section>
+</div>

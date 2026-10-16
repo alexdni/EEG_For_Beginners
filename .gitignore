@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+lab_outputs/
+site/dist/
+.vercel
+.DS_Store
+.playwright-mcp/

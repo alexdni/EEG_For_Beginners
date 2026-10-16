@@ -1,0 +1,9 @@
+mne>=1.8
+numpy
+scipy
+matplotlib
+edfio
+jupyter
+# optional: Module 09 (ICA auto-labelling) and Module 14 (HRV)
+mne-icalabel
+neurokit2
