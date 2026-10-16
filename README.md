@@ -134,4 +134,4 @@ The site adds two interactive pages that only exist in HTML: the **Signal Lab** 
 
 The course structure and reading list come from the *EEG Self-Onboarding Map - Two Weeks* syllabus (Oct 15, 2026, Alex Ni). The linked lectures, decks, tutorials and papers belong to their authors and are linked, not copied. Hands-on material leans on [MNE-Python](https://mne.tools) and [NeuroKit2](https://neuropsychology.github.io/NeuroKit/).
 
-**License: TBD.** Pick one before publishing. A common split is CC BY 4.0 for the written content and figures, and MIT for the code in `code/` and `site/`.
+**License: ** CC BY 4.0 for the written content and figures, and MIT for the code in `code/` and `site/`.
