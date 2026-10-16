@@ -1,0 +1,4 @@
+site/dist/
+.playwright-mcp/
+.remember/
+**/__pycache__/

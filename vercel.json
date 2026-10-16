@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "python3 -m pip install -r site/requirements.txt && python3 site/build.py",
+  "buildCommand": "uv run --no-project --with-requirements site/requirements.txt python3 site/build.py",
   "outputDirectory": "site/dist",
   "installCommand": "",
   "framework": null,
