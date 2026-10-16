@@ -29,6 +29,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 DIST = SITE / "dist"
 SITE_NAME = "EEG for Beginners"
+# Absolute origin for link previews (og:image must be a full URL). Change when the subdomain goes live.
+SITE_URL = os.environ.get("SITE_URL", "https://eeg-for-beginners.vercel.app").rstrip("/")
+SITE_DESCRIPTION = ("A two-week, hands-on introduction to EEG: where the signal comes from, artifacts, filtering, "
+                    "ICA, band power, neurofeedback and HRV, with real sample recordings.")
 
 # Top-level pages in sidebar order; modules are discovered from modules/*.md.
 PAGES = {
@@ -289,10 +293,16 @@ def pager(prev, nxt, current_out):
 
 
 def layout(template, *, title, out, nav, header, body, toc, pager_html, extra_head="", extra_scripts="",
-           body_class=""):
+           body_class="", description=""):
     base = relpath("", out)
+    full_title = f"{title} · {SITE_NAME}" if title != SITE_NAME else SITE_NAME
+    path = "" if out == "index.html" else re.sub(r"(index)?\.html$", "", out)  # cleanUrls form
     return (template
-            .replace("{{title}}", html.escape(f"{title} · {SITE_NAME}" if title != SITE_NAME else SITE_NAME))
+            .replace("{{title}}", html.escape(full_title))
+            .replace("{{og_title}}", html.escape(full_title if title != SITE_NAME else f"{SITE_NAME}: two weeks, real signals"))
+            .replace("{{description}}", html.escape(description or SITE_DESCRIPTION))
+            .replace("{{url}}", f"{SITE_URL}/{path}")
+            .replace("{{site_url}}", SITE_URL)
             .replace("{{base}}", base or "./")
             .replace("{{nav}}", nav)
             .replace("{{header}}", header)
@@ -376,7 +386,7 @@ def build():
             nav=nav_html(nav, p["out"]), header=header, body=body, toc="" if home else toc_html(p["toc"]),
             pager_html=pager((prev["out"], short(prev)) if prev else None,
                              (nxt["out"], short(nxt)) if nxt else None, p["out"]),
-            extra_scripts=mermaid_script(body),
+            extra_scripts=mermaid_script(body), description=str(p["meta"].get("summary") or ""),
         )
         write(DIST / p["out"], doc)
         search.append({"t": title, "u": p["out"], "h": [t for _, _, t in p["toc"]], "x": p["plain"][:6000]})
@@ -390,7 +400,7 @@ def build():
         doc = layout(template, title=title, out=out, nav=nav_html(nav, out),
                      header=page_header({"title": title, "summary": summary}), body=body, toc="",
                      pager_html="", extra_head=head.replace("{{base}}", relpath("", out) or "./"),
-                     extra_scripts="", body_class="wide")
+                     extra_scripts="", body_class="wide", description=summary)
 
         write(DIST / out, doc)
         search.append({"t": title, "u": out, "h": [], "x": summary})
